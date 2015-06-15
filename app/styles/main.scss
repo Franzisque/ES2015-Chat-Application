@@ -1,0 +1,174 @@
+$main-blue: #1c6bc8;
+$dark-grey: #3b3b3b;
+$light-grey: #F2F2F2;
+$turquoise: #31aba7;
+
+@mixin placeholder {
+    ::-webkit-input-placeholder {@content}
+    :-moz-placeholder           {@content}
+    ::-moz-placeholder          {@content}
+    :-ms-input-placeholder      {@content}
+}
+
+@include placeholder {
+    color: grey;
+    font-weight:600;
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 12px;
+    font-style:italic;
+}
+html {
+    height:100%;
+}
+
+body {
+    position: relative;
+    background-color: $light-grey;
+    font-family: Tahoma, Geneva, sans-serif;
+    margin: 0;
+    padding: 0;
+    h1,
+    h2 {
+        color: $turquoise;
+        text-align: center;
+    }
+    h1 {
+        height:5%;
+        color: black;
+    }
+    a:link,
+    a:visited {
+        color: $dark-grey;
+        text-decoration: none;
+    }
+    #start-links {
+        text-align: center;
+    }
+    #content {
+        padding: 10px;
+        height:95%;
+        position:relative;
+        #new-message {
+            padding-left:10px;
+            margin:0;
+            height: 40px;
+            bottom:0;
+            width:95.5%;
+            position:relative;
+            display: inline-block;
+        }
+        .main-content {
+            margin: 0 auto;
+            &#main-room-content {
+                width: 50%;
+            }
+            &#main-user-content {
+                width: 80%;
+                a:first-child {
+                    color: $dark-grey;
+                    display: block;
+                    width: 100%;
+                }
+            }
+            #all-rooms {
+                position:relative;
+                #chatroom-list{
+                    cursor: pointer;
+                    height:50px;
+                    width:100%;
+                    li {
+                        background-color: $main-blue;
+                        &:hover{
+                            opacity: 0.85;
+                        }
+                    }
+                }
+                .chatroom-input {
+                    margin-top:58px;
+                    position:relative;
+                    #new-chatroom{
+                        height:40px;
+                        width: 99%;
+                        font-weight:600;
+                        font-family: Tahoma, Geneva, sans-serif;
+                        font-size: 12px;
+                    }
+                }
+            }
+            //.main-content{
+            ul {
+                list-style-type: none;
+                padding-left: 0;
+                margin: 0;
+                li {
+                    padding: 15px;
+                    border-bottom: 1px solid white;
+                    color: #ffffff;
+                    font-size: 18px;
+                }
+            }
+            //}
+        }
+        #chatroom {
+            background-color: lightgrey;
+            height:650px;
+            width:75%;
+            top:0;
+            display: inline-block;
+            float:left;
+            overflow: scroll;
+            #chatrooms-link {
+                padding-left: 10px;
+                top:-15px;
+                position:absolute;
+            }
+            #messages {
+                padding-left:20px;
+                padding-right:20px;
+                .message {
+                    color:white;
+                    span {
+                        color: $main-blue;
+                        font-weight:600;
+                    }
+                }
+            }
+        }
+        #users {
+            background-color:green;
+            text-decoration: none;
+            list-style: outside none none;
+            top:0px;
+            background-color: darkgrey;
+            height:650px;
+            display: inline-block;
+            width: 20%;
+            padding: 0px 10px 0px 10px;
+            overflow: scroll;
+            li{
+                color:white;
+                &.active {
+                    color: $main-blue;
+                }
+                position::inline-table;
+            }
+        }
+
+        .clearfix:after {
+            content: ".";
+            clear: both;
+            display: block;
+            visibility: hidden;
+            height: 0px;
+        }
+    }
+    #chat-history {
+        width: 70%;
+        float: left;
+    }
+    #all-users {
+        float: right;
+        width: 29%;
+        background: $dark-grey;
+    }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "Chat",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": "Franzisque",
+  "description": "Socket.io Chat Application",
+  "repository": {
+    "type": "git",
+    "url": "github.com/Franzisque/ES6-Chat-Application.git"
+  },
+  "dependencies": {
+    "backbone": "^1.2.0",
+    "body-parser": "^1.12.4",
+    "chance": "^0.7.5",
+    "express": "^4.10.2",
+    "mongodb": "^2.0.33",
+    "mongoose": "^4.0.3",
+    "nodemon": "^1.3.7",
+    "socket.io": "^1.3.5",
+    "socket.io-client": "^1.3.5",
+    "lodash": "^3.9.3",
+    "jquery": "^2.1.4"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "istanbul": "^0.3.14",
+    "babel": "^4.0.1",
+    "browser-sync": "^2.0.1",
+    "del": "^1.1.1",
+    "gulp": "^3.8.11",
+    "gulp-babel": "^4.0.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-mocha": "^2.1.0",
+    "gulp-istanbul": "^0.9.0",
+    "gulp-autoprefixer": "^2.3.1",
+    "gulp-concat": "^2.5.2",
+    "gulp-sass": "^2.0.1",
+    "gulp-uglify": "^1.2.0",
+    "gulp-nodemon": "^2.0.3"
+  }
+}

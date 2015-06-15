@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>index.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="chatrooms.html">
+                  chatrooms.js
+                </a>
+              
+                
+                <a class="source" href="messages.html">
+                  messages.js
+                </a>
+              
+                
+                <a class="source" href="users.html">
+                  users.js
+                </a>
+              
+                
+                <a class="source" href="chatroom.html">
+                  chatroom.js
+                </a>
+              
+                
+                <a class="source" href="message.html">
+                  message.js
+                </a>
+              
+                
+                <a class="source" href="user.html">
+                  user.js
+                </a>
+              
+                
+                <a class="source" href="chatroomItemView.html">
+                  chatroomItemView.js
+                </a>
+              
+                
+                <a class="source" href="chatroomListView.html">
+                  chatroomListView.js
+                </a>
+              
+                
+                <a class="source" href="chatroomView.html">
+                  chatroomView.js
+                </a>
+              
+                
+                <a class="source" href="messageView.html">
+                  messageView.js
+                </a>
+              
+                
+                <a class="source" href="userView.html">
+                  userView.js
+                </a>
+              
+                
+                <a class="source" href="index.html">
+                  index.js
+                </a>
+              
+                
+                <a class="source" href="chatroom.html">
+                  chatroom.js
+                </a>
+              
+                
+                <a class="source" href="user.html">
+                  user.js
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>index.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>Require used packages</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">let</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>),
+    bodyParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">'body-parser'</span>),
+    app = express(),
+    http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>).Server(app),
+    io = <span class="hljs-built_in">require</span>(<span class="hljs-string">'socket.io'</span>)(http),
+    mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongoose'</span>),
+    Chatroom = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./models/chatroom'</span>),
+    User = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./models/user'</span>),
+    backbone = <span class="hljs-built_in">require</span>(<span class="hljs-string">'backbone'</span>),
+    Chance = <span class="hljs-built_in">require</span>(<span class="hljs-string">'chance'</span>),
+    path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>),
+    _ = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lodash'</span>),
+    server;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Connect to Database ‘akw-chat’ via mongoose</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">let</span> db = mongoose.connect(<span class="hljs-string">'mongodb://localhost/akw-chat'</span>);
+
+<span class="hljs-keyword">let</span> chance = <span class="hljs-keyword">new</span> Chance();
+
+app.use(express.static(__dirname + <span class="hljs-string">'../../../'</span>));
+
+app.use(bodyParser.json());
+
+app.use((req, res, next) =&gt; {
+    res.header(<span class="hljs-string">'Access-Control-Allow-Origin'</span>, <span class="hljs-string">'*'</span>);
+    res.header(<span class="hljs-string">'Access-Control-Allow-Methods'</span>, <span class="hljs-string">'GET,PUT,POST,DELETE'</span>);
+    res.header(<span class="hljs-string">'Access-Control-Allow-Headers'</span>, <span class="hljs-string">'Content-Type, Authorization'</span>);
+    <span class="hljs-keyword">if</span> (<span class="hljs-string">'OPTIONS'</span> == req.method) {
+        res.send(<span class="hljs-number">200</span>);
+    } <span class="hljs-keyword">else</span> {
+        next();
+    }
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Set root path to compiled html file</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>app.get(<span class="hljs-string">'/'</span>, (req, res) =&gt; {
+    res.sendFile(path.resolve(<span class="hljs-string">'out/index.html'</span>));
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Path to Chatroomlist - get ChatroomList</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>app.get(<span class="hljs-string">'/roomlist'</span>, (req, res) =&gt; {
+    Chatroom.find({}, (err, chatrooms) =&gt; {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Send Internal Server Error if no Chatrooms are find</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (err) {
+            <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">500</span>).json(err);
+        }
+        <span class="hljs-keyword">return</span> res.json(chatrooms);
+    });
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Create new Chatroom with given name</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>app.post(<span class="hljs-string">'/roomlist'</span>, (req, res) =&gt; {
+    <span class="hljs-keyword">let</span> chatroom = <span class="hljs-keyword">new</span> Chatroom();
+    chatroom.name = req.body.name;
+    chatroom.save(() =&gt; {
+        res.send(req.body);
+    });
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Path to UserList - get Users</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>app.get(<span class="hljs-string">'/userlist'</span>, (req, res) =&gt; {
+    User.find({}, (err, users) =&gt; {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Send Internal Server Error if no Chatrooms are find</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (err) {
+            <span class="hljs-keyword">return</span> res.status(<span class="hljs-number">500</span>).json(err);
+        }
+        <span class="hljs-keyword">return</span> res.json(users);
+    });
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Joining Rooms</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">let</span> joinRoom = (socket, user, room) =&gt; {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Create User with Username</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">let</span> newUser = <span class="hljs-keyword">new</span> User();
+    newUser.username = user;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Save new User</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    newUser.save((err) =&gt; {
+        <span class="hljs-keyword">if</span> (err) {
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"1"</span>, err);
+            <span class="hljs-keyword">return</span>;
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Find Chatroom which the User wants to join</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        Chatroom.findOne({
+            name: room
+        }, (err, chatroom) =&gt; {
+            <span class="hljs-keyword">if</span> (err) {
+                <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"2"</span>, err);
+                <span class="hljs-keyword">return</span>;
+            }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>create new userArray if empty,
+else use existing userArray of the chatroom</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">let</span> userArray;
+            <span class="hljs-keyword">if</span> (!_.isArray(chatroom.users)) {
+                userArray = [];
+            } <span class="hljs-keyword">else</span> {
+                userArray = chatroom.users;
+            }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>emit all users</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            socket.emit(<span class="hljs-string">'all-users'</span>, chatroom.users);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>push new user to the userArray</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            userArray.push(newUser.username);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>append the new user to the chatroom</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            chatroom.update({
+                users: userArray
+            }, (err, c) =&gt; {
+                <span class="hljs-keyword">if</span> (err) {
+                    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"3"</span>, err);
+                    <span class="hljs-keyword">return</span>;
+                }
+                socket.to(chatroom.name).emit(<span class="hljs-string">'new-user'</span>, newUser.username);
+            });
+        });
+    });
+};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Leave Chatroom</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">let</span> leaveRoom = (socket, user, room) =&gt; {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Remove User when leaving the chatroom</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    User.remove({
+        username: user
+    }, (err, removed) =&gt; {
+        <span class="hljs-keyword">if</span> (err) {
+            <span class="hljs-built_in">console</span>.log(err);
+            <span class="hljs-keyword">return</span>;
+        }
+    });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Find the Chatroom which a User wants to leave</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    Chatroom.findOne({
+        name: room
+    }, (err, chatroom) =&gt; {
+        <span class="hljs-keyword">if</span> (err) {
+            <span class="hljs-built_in">console</span>.log(err);
+            <span class="hljs-keyword">return</span>;
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>if no errors remove user from chatroom
+update Chatroom</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        chatroom.users.pull(user);
+        chatroom.save((err) =&gt; {
+            <span class="hljs-keyword">if</span> (err) {
+                <span class="hljs-built_in">console</span>.log(err);
+                <span class="hljs-keyword">return</span>;
+            }
+            socket.to(room).emit(<span class="hljs-string">'remove-user'</span>, user);
+        });
+    });
+};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>randomly assign usernames from nodejs plugin</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">let</span> initialize = (name) =&gt; {
+    name = chance.name();
+    User.findOne({
+        username: name
+    }, (err, model) =&gt; {
+        <span class="hljs-keyword">if</span> (err) {
+            <span class="hljs-built_in">console</span>.log(err);
+            <span class="hljs-keyword">return</span>;
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>avoid duplication of existing usernames in database</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (model !== <span class="hljs-literal">null</span> &amp;&amp; model.username === name) initialize();
+    });
+    <span class="hljs-keyword">return</span> name;
+};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>Socket.io connections - listeners</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>io.on(<span class="hljs-string">'connection'</span>, (socket) =&gt; {
+    <span class="hljs-keyword">let</span> name = initialize(name);
+    <span class="hljs-keyword">let</span> room = <span class="hljs-literal">null</span>;
+    socket.emit(<span class="hljs-string">'user-connected'</span>, {
+        name: name
+    });
+    socket.on(<span class="hljs-string">'join-room'</span>, (data) =&gt; {
+        room = data.room;
+        socket.join(data.room);
+        joinRoom(socket, data.user, data.room);
+    });
+    socket.on(<span class="hljs-string">'leave-room'</span>, (data) =&gt; {
+        room = <span class="hljs-literal">null</span>;
+        socket.leave(data.room);
+        leaveRoom(socket, data.user, data.room);
+    });
+    socket.on(<span class="hljs-string">'send-message'</span>, (data) =&gt; {
+        socket.to(data.message.room).emit(<span class="hljs-string">'new-message'</span>, data.message);
+    });
+    socket.on(<span class="hljs-string">'disconnect'</span>, (data) =&gt; {
+        <span class="hljs-keyword">if</span> (room !== <span class="hljs-literal">null</span>) leaveRoom(socket, name, room);
+    });
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>Server Connection with Exception Handling</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">try</span> {
+    server = http.listen(<span class="hljs-number">3000</span>, () =&gt; {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Listening on port %d'</span>, server.address().port);
+    });
+} <span class="hljs-keyword">catch</span> (err) {
+    <span class="hljs-built_in">console</span>.log(err);
+}</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

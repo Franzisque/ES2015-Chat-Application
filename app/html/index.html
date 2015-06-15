@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chat</title>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <link rel="stylesheet" href="out/css/style.css" />
+</head>
+
+<body>
+    <h1>Chat-Application</h1>
+    <div id="content"></div>
+    <script type="text/template" id="chatroomlist-template">
+        <h2> Please select a room or create a new one</h2>
+        <div id="main-room-content" class="main-content">
+            <div id="all-rooms">
+                <div class="chatroom-input">
+                    <input type="text" id="new-chatroom" placeholder="Create Chatroom" autofocus="autofocus">
+                </div>
+                <ul id="chatroom-list">
+                    <!-- appended chatroom items -->
+                </ul>
+            </div>
+        </div>
+    </script>
+    <script type="text/template" id="chatroom-item-template">
+        <div class="chatroom">
+            <%- name %>
+        </div>
+    </script>
+    <script type="text/template" id="chatroom-user-template">
+        <div class="user">
+            <%- name %>
+        </div>
+    </script>
+    <script type="text/template" id="chatroom-template">
+        <div id="chatroom">
+            <h2 id="title"><%- name %></h2>
+            <a href="" id="chatrooms-link">‹ Chatrooms</a>
+            <div id="messages"></div>
+        </div>
+        <div id="users">
+            <h4>Active Users:</h4>
+        </div>
+        <input type="text" id="new-message" placeholder="Send Message" autofocus="autofocus">
+    </script>
+    <script type="text/template" id="chatroom-message-template">
+        <div class="message">
+            <span><%- user %> (<%- time %>): </span>
+            <div>
+                <%- text %>
+            </div>
+        </div>
+    </script>
+    <script type="text/javascript" src="out/js/app.js"></script>
+</body>
+
+</html>
